@@ -85,6 +85,7 @@ def csv_to_bronze_table(table_name, schema, over_write=False):
 # COMMAND ----------
 
 def main():
+    global landing_folder
     landing_folder = "/FileStore/landing/"
     target_tables = ('payments', 'riders', 'stations', 'trips')
     target_schemas = (payment_schema, rider_schema, station_schema, trip_schema)
