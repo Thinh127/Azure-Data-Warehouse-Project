@@ -20,11 +20,6 @@ def df_from_delta_tb(table_name):
 
 # COMMAND ----------
 
-# DBTITLE 1,payments table
-df_payment = df_from_delta_tb("bronze_payments")
-
-# COMMAND ----------
-
 def get_null_record(df):
     # Create a condition to check nulls in all columns
     null_condition = [F.col(c).isNull() for c in df.columns]
@@ -65,44 +60,15 @@ def drop_duplicate_rows(df: DataFrame, columns=None) -> DataFrame:
         return df.dropDuplicates(columns)
     return df.dropDuplicates()
 
-# COMMAND ----------
-
-df_trip = df_from_delta_tb("bronze_trips")
-
-# COMMAND ----------
-
-display(get_null_record(df_from_delta_tb("bronze_riders")))
-
-# COMMAND ----------
-
-df_riders = df_from_delta_tb('bronze_riders')
-
-# Step 1: Select 10 records from the original DataFrame to modify
-df_sample = df_riders.limit(10)
-
-# Step 2: Modify the sample by adding nulls to 'address' for the first 3 rows and 'birthday' for the first 7 rows
-df_sample = df_sample.withColumn(
-    "address", F.when(F.monotonically_increasing_id() < 3, F.lit(None)).otherwise(df_sample["address"])
-)
-
-df_sample = df_sample.withColumn(
-    "birthday", F.when(F.monotonically_increasing_id() < 7, F.lit(None)).otherwise(df_sample["birthday"])
-)
-
-# Step 3: Exclude the selected 10 records from the original DataFrame
-df_remaining = df_riders.subtract(df_sample)
-
-# Step 4: Union the modified sample with the remaining records
-df_updated = df_remaining.union(df_sample)
-
-# Show the updated DataFrame
-df_updated.show()
-
-# COMMAND ----------
-
-cols = df_riders.columns
-cols.remove('account_end_date')
-cols
+def bronze_to_silver(df, table_name, over_write=False):
+    if over_write:
+        df.write.format("delta") \
+            .mode("overwrite") \
+            .saveAsTable(table_name)
+    else:
+        df.write.format("delta") \
+            .saveAsTable(table_name)
+    print(f"Store successfully {table_name}")
 
 # COMMAND ----------
 
@@ -119,4 +85,11 @@ def main():
             bronze_dict[key] = drop_null_rows(bronze_dict[key], columns=columns)
         # drop duplicates
         bronze_dict[key] = drop_duplicate_rows(bronze_dict[key])
+        table_name = key.replace("bronze", "silver")
+        bronze_to_silver(bronze_dict[key], table_name=table_name)
     
+
+# COMMAND ----------
+
+if __name__ == '__main__':
+    main()
