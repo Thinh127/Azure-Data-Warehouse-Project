@@ -5,7 +5,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_date (
+# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_dates (
 # MAGIC   date_key INT,
 # MAGIC   date DATE,
 # MAGIC   year INT,
@@ -35,7 +35,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_user (
+# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_users (
 # MAGIC   user_id INT,
 # MAGIC   first STRING,
 # MAGIC   last STRING,
@@ -46,7 +46,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_trip (
+# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_trips (
 # MAGIC   trip_id INT,
 # MAGIC   ridable_type STRING,
 # MAGIC   started_at TIMESTAMP,
@@ -58,7 +58,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_station (
+# MAGIC CREATE TABLE IF NOT EXISTS gold.dim_stations (
 # MAGIC   station_id INT,
 # MAGIC   name STRING,
 # MAGIC   latitude FLOAT,
@@ -68,7 +68,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS gold.fact_payment (
+# MAGIC CREATE TABLE IF NOT EXISTS gold.fact_payments (
 # MAGIC   payment_id INT,
 # MAGIC   user_id INT,
 # MAGIC   trip_id INT,
@@ -79,7 +79,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS gold.fact_trip (
+# MAGIC CREATE TABLE IF NOT EXISTS gold.fact_trips (
 # MAGIC   user_id INT,
 # MAGIC   trip_id INT,
 # MAGIC   user_age INT,
