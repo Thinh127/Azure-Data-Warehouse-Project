@@ -47,19 +47,19 @@
 
 # MAGIC %sql
 # MAGIC CREATE TABLE IF NOT EXISTS gold.dim_trips (
-# MAGIC   trip_id INT,
+# MAGIC   trip_id STRING,
 # MAGIC   ridable_type STRING,
 # MAGIC   started_at TIMESTAMP,
 # MAGIC   ended_at TIMESTAMP,
-# MAGIC   start_station_id INT,
-# MAGIC   end_station_id INT
+# MAGIC   start_station_id STRING,
+# MAGIC   end_station_id STRING
 # MAGIC ) USING DELTA;
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC CREATE TABLE IF NOT EXISTS gold.dim_stations (
-# MAGIC   station_id INT,
+# MAGIC   station_id STRING,
 # MAGIC   name STRING,
 # MAGIC   latitude FLOAT,
 # MAGIC   longitude FLOAT
@@ -71,7 +71,7 @@
 # MAGIC CREATE TABLE IF NOT EXISTS gold.fact_payments (
 # MAGIC   payment_id INT,
 # MAGIC   user_id INT,
-# MAGIC   trip_id INT,
+# MAGIC   trip_id STRING,
 # MAGIC   date_key INT,
 # MAGIC   amount FLOAT
 # MAGIC ) USING DELTA;
@@ -81,7 +81,7 @@
 # MAGIC %sql
 # MAGIC CREATE TABLE IF NOT EXISTS gold.fact_trips (
 # MAGIC   user_id INT,
-# MAGIC   trip_id INT,
+# MAGIC   trip_id STRING,
 # MAGIC   user_age INT,
 # MAGIC   duration FLOAT
 # MAGIC ) USING DELTA;
